@@ -1,0 +1,22 @@
+[credential]
+	helper = osxkeychain
+[user]
+	name = Jake Magill
+	email = jake.magill@redfin.com
+[merge]
+	tool = diffmerge
+[diff]
+	tool = diffmerge
+[mergetool "diffmerge"]
+	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --nosplash --merge --result=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+	trustExitCode = true
+[difftool "diffmerge"]
+	cmd = /Applications/DiffMerge.app/Contents/MacOS/DiffMerge --nosplash \"$LOCAL\" \"$REMOTE\"
+[mergetool]
+	keepBackup = false
+[alias]
+	st = status
+	cm = commit -m
+	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+	la = "!git config -l | grep alias | cut -c 7-"
