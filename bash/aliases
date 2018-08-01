@@ -1,5 +1,0 @@
-# Adds all files that aren't labeled 'Untracked' and then shows the status
-alias gitadd='git ls-files --modified | xargs git add; git status'
-
-# I'm a windows user at home
-alias cls='clear'
