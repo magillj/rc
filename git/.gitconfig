@@ -20,6 +20,11 @@
 	cmf = commit -m --no-verify
 	co = checkout
 	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+	lsl = "!f() { \
+			numLines="$1"; \
+			[[ -z "$numLines" ]] && numLines=10; \
+			git ls | head -n "$numLines"; \
+		    }; f"
 	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
 	lg = log --graph --decorate --pretty=oneline --abbrev-commit
 	la = "!git config -l | grep alias | cut -c 7-"
