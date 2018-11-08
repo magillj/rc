@@ -44,9 +44,19 @@ alias diff-lines='__diff_lines'
 # Destroys then remakes the directory
 alias refresh='__refresh_dir'
 
+# Mimics the ll command on linux
 alias ll='ls -lhG'
+
+# Shows hidden files. TODO: This doesn't work if you pass a directory after it
 alias lsh='ls -ld .?*'
+
+# Show the file permissions in octal format as well. TODO: This doesn't work if you pass a directory
+alias lso="ls -alG | awk '{k=0;for(i=0;i<=8;i++)k+=((substr(\$1,i+2,1)~/[rwx]/)*2^(8-i));if(k)printf(\" %0o \",k);print}'"
+
+# Source the bash profile
 alias sourceme='source $HOME/.bash_profile'
+
+# Backup the bash profile
 alias backprofile='cp $HOME/.bash_profile $HOME/.bash_profile_backup'
 
 ###############################################
