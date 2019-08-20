@@ -20,6 +20,7 @@
 	cmf = commit -m --no-verify
 	co = checkout
 	colb = checkout @{-1}
+	diffs = diff --staged
 	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
 	lsl = "!f() { \
 			numLines="$1"; \
@@ -29,6 +30,11 @@
 	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
 	lg = log --graph --decorate --pretty=oneline --abbrev-commit
 	la = "!git config -l | grep alias | cut -c 7-"
-	diffs = diff --staged
+	rsm = pull origin stable-master --rebase
 [core]
 	editor = emacs
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

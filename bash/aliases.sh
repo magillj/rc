@@ -59,6 +59,23 @@ alias sourceme='source $HOME/.bash_profile'
 # Backup the bash profile
 alias backprofile='cp $HOME/.bash_profile $HOME/.bash_profile_backup'
 
+# Adds the tree command to mac
+alias tree="find ${1:-.} -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
+
+# Makes a directory then cd's to it
+alias mkcdir='__mkcdir'
+
+###############################################                                                                                                                                                                                                                              
+#       Redfin specific aliases               #
+############################################### 
+
+# Unzip the snzipped tar directory to a refreshed /tmp/deleteme
+alias sztar='__sztar'
+
+# ssh to the panda machine given a url
+alias pandassh='__panda_ssh'
+
+
 ###############################################
 #       Functions used by the aliases         #
 ###############################################
@@ -140,4 +157,24 @@ __refresh_dir()
 {
     rm -rf "$1"
     mkdir -p "$1"
+}
+
+__sztar()
+{
+    refresh /tmp/deleteme
+    snzip -dc < "$1" | tar -x -C /tmp/deleteme
+}
+
+__mkcdir ()
+{
+    mkdir -p -- "$1" &&
+    cd -P -- "$1"
+}
+
+__panda_ssh()
+{
+    nofront=${1/https:\/\/ip-/}
+    noback=${nofront/.redfintest.com/}
+    host=${noback//-/.}
+    ssh root@$host
 }
