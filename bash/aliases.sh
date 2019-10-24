@@ -5,6 +5,9 @@ alias gitadd='git ls-files --modified | xargs git add; git status'
 # Pushes the branch to an upstream branch with the same name. Sets tracking to that branch
 alias gitpush='__git_push_set_remote'
 
+# Git status takes a while. This is a quick alias for uno status
+alias gitst="git status -uno"
+
 # I'm a windows user at home
 alias cls='clear'
 
@@ -45,7 +48,7 @@ alias diff-lines='__diff_lines'
 alias refresh='__refresh_dir'
 
 # Mimics the ll command on linux
-alias ll='ls -lhG'
+alias ll='ls -lhGA'
 
 # Shows hidden files. TODO: This doesn't work if you pass a directory after it
 alias lsh='ls -ld .?*'
@@ -92,7 +95,7 @@ __show_git_top_5_committers ()
 __branch_off_updated_stable_master ()
 {
     git checkout stable-master
-    git pull
+    git pull origin stable-master
     if [ -z "$1" ]; then
 	echo "No branch specified to use. Just staying on update stable-master"
     else
