@@ -68,6 +68,11 @@ alias tree="find ${1:-.} -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
 # Makes a directory then cd's to it
 alias mkcdir='__mkcdir'
 
+# These aliases require git-number to function and are designed to make git easier
+alias gn='git number --column'
+alias ga='git number add'
+alias gan='__git_number_add_show'
+
 ###############################################                                                                                                                                                                                                                              
 #       Redfin specific aliases               #
 ############################################### 
@@ -180,4 +185,10 @@ __panda_ssh()
     noback=${nofront/.redfintest.com/}
     host=${noback//-/.}
     ssh root@$host
+}
+
+__git_number_add_show()
+{
+    git number add "$1"
+    git number --column
 }
