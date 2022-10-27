@@ -5,8 +5,11 @@ alias gitadd='git ls-files --modified | xargs git add; git status'
 # Pushes the branch to an upstream branch with the same name. Sets tracking to that branch
 alias gitpush='__git_push_set_remote'
 
-# Git status takes a while. This is a quick alias for uno status
-alias gitst="git status -uno"
+# Force pushes the branch to an upstream branch with the same name. Sets tracking to that branch     
+alias gitpushf='__git_force_push_set_remote'
+
+# Git status takes a while in large repos. This is a quick alias for uno status
+alias gitst='git status -uno'
 
 # I'm a windows user at home
 alias cls='clear'
@@ -16,6 +19,9 @@ alias gittopusers='__show_git_top_5_committers'
 
 # Set up tests against dockerized postgres
 alias ijsetuptests='POSTGRES_FORCE_PORT=5432 docker/psql-tmpfs/run'
+
+# Deletes all local branches which have merged with master
+alias clean-branches='git branch --merged | egrep -v "(^\*|master)" | xargs git branch -d'
 
 # Alias to be run on main repo that resets to an updated stable master then checks out the new branch
 alias stablebranch='__branch_off_updated_stable_master'
@@ -114,6 +120,12 @@ __git_push_set_remote ()
     git push -u origin $gitBranch
 }
 
+__git_force_push_set_remote ()
+{
+    gitBranch=$(git rev-parse --abbrev-ref HEAD)
+    git push -u origin $gitBranch --force
+}
+
 __git_delete_branch ()
 {
     if [ -z "$1" ]; then
@@ -127,8 +139,22 @@ __git_delete_branch ()
 __open_branch_in_stash()
 {
     gitBranch=$(git rev-parse --abbrev-ref HEAD)
-    gitRepo=$(basename $(git config --local --get remote.$(git config --get branch.master.remote).url) .git)
-    open "https://stash.redfin.com/projects/RED/repos/$gitRepo/commits?until=refs%2Fheads%2F$gitBranch"
+    gitRepo=$(basename `git rev-parse --show-toplevel`)
+
+    # Determining the project is a little annoying
+    local project=RED
+    case $gitRepo in
+	"puppet") project=OPS ;;
+	"redtronimus") project=TRON ;;
+	"timber") project=AF ;;
+    esac
+    if [[ "$(pwd)" == *"code/bouncer"* ]]; then
+	project=BOUNCER
+    elif [[ "$(pwd)" == *"code/cop"* ]]; then
+	project=COP
+    fi
+    
+    open "https://stash.redfin.com/projects/$project/repos/$gitRepo/commits?until=refs%2Fheads%2F$gitBranch"
 }
 
 __convert_epoch()
