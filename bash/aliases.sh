@@ -26,8 +26,8 @@ alias clean-branches='git branch --merged | egrep -v "(^\*|master)" | xargs git 
 # Alias to be run on main repo that resets to an updated stable master then checks out the new branch
 alias stablebranch='__branch_off_updated_stable_master'
 
-# Opens up a main repo branch's commits on stash in a web browser
-alias stashbranch='__open_branch_in_stash'
+# Opens up a main repo branch's commits on Git in a web browser
+alias openpr='__open_branch_in_git'
 
 # Moves current changes to a testing branch
 alias testbranch='git stash; git branch -D jam-testing; git push origin -d jam-testing; git checkout -b jam-testing; git stash pop'
@@ -136,25 +136,12 @@ __git_delete_branch ()
     fi
 }
 
-__open_branch_in_stash()
+__open_branch_in_git()
 {
     gitBranch=$(git rev-parse --abbrev-ref HEAD)
     gitRepo=$(basename `git rev-parse --show-toplevel`)
 
-    # Determining the project is a little annoying
-    local project=RED
-    case $gitRepo in
-	"puppet") project=OPS ;;
-	"redtronimus") project=TRON ;;
-	"timber") project=AF ;;
-    esac
-    if [[ "$(pwd)" == *"code/bouncer"* ]]; then
-	project=BOUNCER
-    elif [[ "$(pwd)" == *"code/cop"* ]]; then
-	project=COP
-    fi
-    
-    open "https://stash.redfin.com/projects/$project/repos/$gitRepo/commits?until=refs%2Fheads%2F$gitBranch"
+    open "https://github.com/redfin-corp/$gitRepo/pull/new/$gitBranch"
 }
 
 __convert_epoch()
